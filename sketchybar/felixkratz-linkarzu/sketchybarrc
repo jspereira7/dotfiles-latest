@@ -28,9 +28,9 @@ launchctl unload -F /System/Library/LaunchAgents/com.apple.OSDUIHelper.plist >/d
 
 # Setting up the general bar appearance of the bar
 bar=(
-  height=45
+  height=46 #original 45
   color=$BAR_COLOR
-  border_width=2
+  border_width=2 #original 2
   border_color=$BAR_BORDER_COLOR
   shadow=off
   position=top
@@ -47,7 +47,7 @@ sketchybar --bar "${bar[@]}"
 # Setting up default values
 defaults=(
   updates=when_shown
-  icon.font="$FONT:Bold:14.0"
+  icon.font="$FONT:Bold:14.0" #original 14
   icon.color=$ICON_COLOR
   icon.padding_left=$PADDINGS
   icon.padding_right=$PADDINGS
@@ -57,9 +57,9 @@ defaults=(
   label.padding_right=$PADDINGS
   padding_right=$PADDINGS
   padding_left=$PADDINGS
-  background.height=26
-  background.corner_radius=9
-  background.border_width=2
+  background.height=26 # original 26
+  background.corner_radius=9 #original 9
+  background.border_width=2 # original 2
   popup.background.border_width=2
   popup.background.corner_radius=9
   popup.background.border_color=$POPUP_BORDER_COLOR
@@ -101,10 +101,10 @@ source "$ITEM_DIR/mic.sh"
 
 # Shows album art and song name, I prefer this as it give me useful info
 # Disabled this as it always kept it in the middle even if nothing was playing
-# source "$ITEM_DIR/media.sh"
+ source "$ITEM_DIR/media.sh"
 
 # Shows floating window when spotify is playing a song
-# source "$ITEM_DIR/spotify.sh"
+ source "$ITEM_DIR/spotify.sh"
 
 ###############################################################################
 #                               Right side
@@ -155,6 +155,9 @@ source "$ITEM_DIR/custom_text.sh"
 source "$ITEM_DIR/notification.sh"
 
 ###############################################################################
+sketchybar --set front_app icon.background.image.scale=0.6 # deixa o icone do app melhor formatado
+sketchybar --set front_app icon.y_offset=-2 #centraliza  o icone 
+
 
 sketchybar --hotload on
 

@@ -10,7 +10,7 @@
 #
 # If you don't do this, the script won't find yabai or jq or any other apps in
 # the /opt/homebrew/bin dir
-export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/usr/local:$PATH"
 
 # To find the position and size of an app
 # yabai -m query --windows | jq '.[] | select(.app == "kitty") | {frame: .frame, id: .id}'
@@ -21,16 +21,33 @@ display_resolution=$(system_profiler SPDisplaysDataType | grep Resolution)
 if [[ $(echo "$display_resolution" | grep -c "Resolution") -ge 2 ]]; then
   yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1369:39
   yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:231:400
+  # yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1,80:30
+  # yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:192:350
   exit 0
 fi
 # First condition is to match my macbook pro, the * are used as wildcards
-if [[ "$display_resolution" == *"3456 x 2234"* ]]; then
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1,139:41
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:231:400
+# if [[ "$display_resolution" == *"3456 x 2234"* ]]; then
+#   yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1,139:41
+#   yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:231:400
+
+
+
+#config de resolucao pro meu mac com monitor 1920x1080:
+if [[ "$display_resolution" == *"1920 x 1080"* ]]; then
+  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1,80:30
+  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:192:350
+
+# config pra tela do mac pro retina mid-15
+elif [[ "$display_resolution" == *"2880 x 1800"* ]]; then
+  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1180:36
+  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:225:385
+
+
+
   # This elif below is for my macbook pro 14 inch
-elif [[ "$display_resolution" == *"3024 x 1964"* ]]; then
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1283:39
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:231:400
+# elif [[ "$display_resolution" == *"3024 x 1964"* ]]; then
+#   yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1283:39
+#   yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:231:400
   # This elif below is for my short format videos 9:16
 elif [[ "$display_resolution" == *"1536 x 2048"* ]]; then
   yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:4:805

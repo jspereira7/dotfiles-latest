@@ -3,46 +3,46 @@
 # automaticaly push changes to some github repos
 #
 # Check if the com.linkarzu.autoPushGithub.plist file exists, create it if missing
-PLIST_PATH="$HOME/Library/LaunchAgents/com.linkarzu.autoPushGithub.plist"
-SCRIPT_PATH="$HOME/github/dotfiles-latest/scripts/macos/mac/400-autoPushGithub.sh"
+# PLIST_PATH="$HOME/Library/LaunchAgents/com.linkarzu.autoPushGithub.plist"
+# SCRIPT_PATH="$HOME/github/dotfiles-latest/scripts/macos/mac/400-autoPushGithub.sh"
 
 # NOTE: If you modify the StartInterval below, make sure to also change it in
 # the ~/github/dotfiles-latest/scripts/macos/mac/400-autoPushGithub.sh script
-if [ ! -f "$PLIST_PATH" ]; then
-  echo "Creating $PLIST_PATH..."
-  cat <<EOF >"$PLIST_PATH"
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>Label</key>
-    <string>com.linkarzu.autoPushGithub</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>$SCRIPT_PATH</string>
-    </array>
-    <key>StartInterval</key>
-    <integer>180</integer>
-    <key>StandardOutPath</key>
-    <string>/tmp/autoPushGithub.out</string>
-    <key>StandardErrorPath</key>
-    <string>/tmp/autoPushGithub.err</string>
-</dict>
-</plist>
-EOF
-  echo "Created $PLIST_PATH."
-fi
+# if [ ! -f "$PLIST_PATH" ]; then
+#   echo "Creating $PLIST_PATH..."
+#   cat <<EOF >"$PLIST_PATH"
+# <?xml version="1.0" encoding="UTF-8"?>
+# <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+# <plist version="1.0">
+# <dict>
+#     <key>Label</key>
+#     <string>com.linkarzu.autoPushGithub</string>
+#     <key>ProgramArguments</key>
+#     <array>
+#         <string>$SCRIPT_PATH</string>
+#     </array>
+#     <key>StartInterval</key>
+#     <integer>180</integer>
+#     <key>StandardOutPath</key>
+#     <string>/tmp/autoPushGithub.out</string>
+#     <key>StandardErrorPath</key>
+#     <string>/tmp/autoPushGithub.err</string>
+# </dict>
+# </plist>
+# EOF
+#   echo "Created $PLIST_PATH."
+# fi
 
 # Check if the plist file is loaded, and load it if not
 # If you want to verify manually if running, run
 # launchctl list | grep -i autopush
 # First column (-) means the job is NOT currently running. Normal as our script runs every X seconds
 # Second Column (0) means the job ran successfully the last execution, other values mean error
-if ! launchctl list | grep -q "com.linkarzu.autoPushGithub"; then
-  echo "Loading $PLIST_PATH..."
-  launchctl load "$PLIST_PATH"
-  echo "$PLIST_PATH loaded."
-fi
+# if ! launchctl list | grep -q "com.linkarzu.autoPushGithub"; then
+#   echo "Loading $PLIST_PATH..."
+#   launchctl load "$PLIST_PATH"
+#   echo "$PLIST_PATH loaded."
+# fi
 
 # Automate tmux session cleanup every X hours using a LaunchAgent
 # This will create plist file to run the script every X hours
@@ -58,42 +58,42 @@ PLIST_LABEL="${PLIST_NAME%.plist}"
 PLIST_PATH="$HOME/Library/LaunchAgents/$PLIST_NAME"
 SCRIPT_PATH="$HOME/github/dotfiles-latest/tmux/tools/linkarzu/$PLIST_ID.sh"
 
-# Ensure the script file exists
-if [ ! -f "$SCRIPT_PATH" ]; then
-  echo "Error: $SCRIPT_PATH does not exist."
-else
-  # If the PLIST file does not exist, create it
-  if [ ! -f "$PLIST_PATH" ]; then
-    echo "Creating $PLIST_PATH..."
-    cat <<EOF >"$PLIST_PATH"
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>Label</key>
-    <string>$PLIST_LABEL</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>$SCRIPT_PATH</string>
-    </array>
-    <key>StartInterval</key>
-    <integer>$INTERVAL_SEC</integer>
-    <key>StandardOutPath</key>
-    <string>/tmp/$PLIST_ID.out</string>
-    <key>StandardErrorPath</key>
-    <string>/tmp/$PLIST_ID.err</string>
-</dict>
-</plist>
-EOF
-  fi
-fi
+# # Ensure the script file exists
+# if [ ! -f "$SCRIPT_PATH" ]; then
+#   echo "Error: $SCRIPT_PATH does not exist."
+# else
+#   # If the PLIST file does not exist, create it
+#   if [ ! -f "$PLIST_PATH" ]; then
+#     echo "Creating $PLIST_PATH..."
+#     cat <<EOF >"$PLIST_PATH"
+# <?xml version="1.0" encoding="UTF-8"?>
+# <!DOCTYPE plist PUBLIC "-Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+# <plist version="1.0">
+# <dict>
+#     <key>Label</key>
+#     <string>$PLIST_LABEL</string>
+#     <key>ProgramArguments</key>
+#     <array>
+#         <string>$SCRIPT_PATH</string>
+#     </array>
+#     <key>StartInterval</key>
+#     <integer>$INTERVAL_SEC</integer>
+#     <key>StandardOutPath</key>
+#     <string>/tmp/$PLIST_ID.out</string>
+#     <key>StandardErrorPath</key>
+#     <string>/tmp/$PLIST_ID.err</string>
+# </dict>
+# </plist>
+# EOF
+#   fi
+# fi
 
-# Check if the plist is loaded, and load it if not
-if ! launchctl list | grep -q "$PLIST_LABEL"; then
-  echo "Loading $PLIST_PATH..."
-  launchctl load "$PLIST_PATH"
-  echo "$PLIST_PATH loaded."
-fi
+# # Check if the plist is loaded, and load it if not
+# if ! launchctl list | grep -q "$PLIST_LABEL"; then
+#   echo "Loading $PLIST_PATH..."
+#   launchctl load "$PLIST_PATH"
+#   echo "$PLIST_PATH loaded."
+# fi
 
 # To unload
 # launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.linkarzu.tmuxKillSessions
