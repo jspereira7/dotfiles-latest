@@ -2,6 +2,10 @@
 
 # Filename: ~/github/dotfiles-latest/sketchybar/felixkratz/sketchybarrc
 
+HELPER="/Users/$USER/.config/sketchybar/helper/helper"
+export HELPER
+
+
 source "$CONFIG_DIR/colors.sh" # Loads all defined colors
 source "$CONFIG_DIR/icons.sh"  # Loads all defined icons
 

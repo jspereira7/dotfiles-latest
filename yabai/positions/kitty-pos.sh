@@ -10,62 +10,60 @@
 #
 # If you don't do this, the script won't find yabai or jq or any other apps in
 # the /opt/homebrew/bin dir
-export PATH="/usr/local:$PATH"
+export PATH="/usr/local/bin:$PATH"
 
-# To find the position and size of an app
-# yabai -m query --windows | jq '.[] | select(.app == "kitty") | {frame: .frame, id: .id}'
-# yabai -m query --windows is producing malformed JSON with a trailing comma before ]
-# yabai -m query --windows | sed 's/,]/]/g' | jq '.[] | select(.app == "kitty") | {frame: .frame, id: .id}'
+# Função para verificar se uma janela existe antes de tentar movê-la
+move_window() {
+    local app="$1"
+    local x="$2"
+    local y="$3"
+    local w="$4"
+    local h="$5"
+
+    # Pega o ID da janela se ela existir
+    window_id=$(yabai -m query --windows | jq -r ".[] | select(.app == \"$app\") | .id")
+    
+    if [ ! -z "$window_id" ]; then
+        # Garante que a janela está em modo float
+        yabai -m window "$window_id" --toggle float || true
+        
+        # Pequena pausa para garantir que o estado foi atualizado
+        sleep 0.1
+        
+        # Move a janela para a posição desejada
+        yabai -m window "$window_id" --move "abs:${x}:${y}" || true
+        
+        # Pequena pausa antes do redimensionamento
+        sleep 0.1
+        
+        # Redimensiona a janela
+        yabai -m window "$window_id" --resize "abs:${w}:${h}" || true
+    else
+        echo "Janela do $app não encontrada"
+    fi
+}
+
 display_resolution=$(system_profiler SPDisplaysDataType | grep Resolution)
-# Check if more than one display is connected by counting Resolution lines
+
+# Check if more than one display is connected
 if [[ $(echo "$display_resolution" | grep -c "Resolution") -ge 2 ]]; then
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1369:39
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:231:400
-  # yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1,80:30
-  # yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:192:350
-  exit 0
+    move_window "kitty" 1131 40 309 412
+    exit 0
 fi
-# First condition is to match my macbook pro, the * are used as wildcards
-# if [[ "$display_resolution" == *"3456 x 2234"* ]]; then
-#   yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1,139:41
-#   yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:231:400
 
-
-
-#config de resolucao pro meu mac com monitor 1920x1080:
-if [[ "$display_resolution" == *"1920 x 1080"* ]]; then
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1,80:30
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:192:350
-
-# config pra tela do mac pro retina mid-15
-elif [[ "$display_resolution" == *"2880 x 1800"* ]]; then
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1180:36
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:225:385
-
-
-
-  # This elif below is for my macbook pro 14 inch
-# elif [[ "$display_resolution" == *"3024 x 1964"* ]]; then
-#   yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1283:39
-#   yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:231:400
-  # This elif below is for my short format videos 9:16
+# MacBook Pro Retina 15-inch config
+if [[ "$display_resolution" == *"2880 x 1800"* ]]; then
+    move_window "kitty" 1131 40 309 412
+    
+# 1920x1080 monitor config
+elif [[ "$display_resolution" == *"1920 x 1080"* ]]; then
+    move_window "kitty" 1131 40 309 412
+    
+# 1536x2048 config
 elif [[ "$display_resolution" == *"1536 x 2048"* ]]; then
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:4:805
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:290:215
-  # Else below will match my 27 inch monitor
+    move_window "kitty" 1131 40 309 412
+    
+# Default config
 else
-  # yabai -m window --focus "$(yabai -m query --windows | sed 's/,]/]/g' | jq '.[] | select(.app == "kitty") | .id')" --move abs:1369:39
-  # yabai -m window --focus "$(yabai -m query --windows | sed 's/,]/]/g' | jq '.[] | select(.app == "kitty") | .id')" --resize abs:231:400
-  # yabai -m window --focus "$(yabai -m query --windows | sed 's/,]/]/g' | jq '.[] | select(.app == "Google Chrome") | .id')" --move abs:1369:545
-  # yabai -m window --focus "$(yabai -m query --windows | sed 's/,]/]/g' | jq '.[] | select(.app == "Google Chrome") | .id')" --resize abs:231:355
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --move abs:1369:39
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "kitty") | .id')" --resize abs:231:400
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "Google Chrome") | .id')" --move abs:1369:545
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "Google Chrome") | .id')" --resize abs:231:355
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "Spotify") | .id')" --move abs:173:120
-  yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "Spotify") | .id')" --resize abs:1027:708
-  # yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "Udemy") | .id')" --move abs:0:38
-  # yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "Udemy") | .id')" --resize abs:912:862
-  # yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "WezTerm") | .id')" --move abs:912:39
-  # yabai -m window --focus "$(yabai -m query --windows | jq '.[] | select(.app == "WezTerm") | .id')" --resize abs:688:862
+    move_window "kitty" 1131 40 309 412
 fi
