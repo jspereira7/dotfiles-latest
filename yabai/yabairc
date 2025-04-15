@@ -44,73 +44,73 @@ yabai -m rule --add app="^${apps_mgoff_above}$" manage=off sub-layer=above
 # Sketchybar size changes depending if I'm on my laptop or mac mini, solving it
 # this way, there may be a better way but this was the easiest to solve for now
 # I only change the paddings if yabai is installed, otherwise I use default
-# paddings
-if command -v sketchybar &>/dev/null; then
-  # Check the display size (e.g., grab the resolution here)
-  display_resolution=$(system_profiler SPDisplaysDataType | grep Resolution)
-  # First condition is to match my macbook pro, the * are used as wildcards
-  if [[ "$display_resolution" == *"3456 x 2234"* ]]; then
-    # yabai -m config top_padding 12
-    yabai -m config top_padding 12
-    yabai -m config bottom_padding 0
-    yabai -m config left_padding 0
-    yabai -m config right_padding 230
-    # Resolution for my shorts
-  elif [[ "$display_resolution" == *"1536 x 2048"* ]]; then
-    yabai -m config top_padding 38
-    yabai -m config bottom_padding 220
-    yabai -m config left_padding 0
-    yabai -m config right_padding 0
-  elif [[ "$display_resolution" == *"3200 x 1800"* ]]; then
-    # # This matches my asus 27 inch monitor
-    # # yabai -m config top_padding 39
-    yabai -m config top_padding 38
-    yabai -m config bottom_padding 0
-    yabai -m config left_padding 0
-    yabai -m config right_padding 230
-  elif [[ "$display_resolution" == *"3024 x 1964"* ]]; then
-    # # This matches my macbook 14 inch
-    # # yabai -m config top_padding 39
-    yabai -m config top_padding 10
-    yabai -m config bottom_padding 0
-    yabai -m config left_padding 0
-    yabai -m config right_padding 230
-    # # For videos thumbnails
-    # yabai -m config top_padding 400
-    # yabai -m config bottom_padding 20
-    # yabai -m config left_padding 500
-    # yabai -m config right_padding 100
-
-    # For youtube thumbnails
-    # yabai -m config right_padding 500
-
-    # For youtube posts and neomemes
-    # yabai -m config right_padding 800
-
-    # For shorts
-    # yabai -m config bottom_padding 400
-  elif [[ "$display_resolution" == *"2880 x 1800"* ]]; then
-    yabai -m config top_padding 38
-    yabai -m config bottom_padding 0
-    yabai -m config left_padding 0
-    yabai -m config right_padding 309  # Mesma largura do Kitty
-  fi
-else
-  yabai -m config top_padding 02
-  yabai -m config bottom_padding 00
-fi
-
+# # paddings
+# if command -v sketchybar &>/dev/null; then
+#   # Check the display size (e.g., grab the resolution here)
+#   display_resolution=$(system_profiler SPDisplaysDataType | grep Resolution)
+#   # First condition is to match my macbook pro, the * are used as wildcards
+#   if [[ "$display_resolution" == *"3456 x 2234"* ]]; then
+#     # yabai -m config top_padding 12
+#     yabai -m config top_padding 13
+#     yabai -m config bottom_padding 5
+#     yabai -m config left_padding 5 
+#     yabai -m config right_padding 5
+#     # Resolution for my shorts
+#   elif [[ "$display_resolution" == *"1536 x 2048"* ]]; then
+#     yabai -m config top_padding 38
+#     yabai -m config bottom_padding 220
+#     yabai -m config left_padding 0
+#     yabai -m config right_padding 0
+#   elif [[ "$display_resolution" == *"3200 x 1800"* ]]; then
+#     # # This matches my asus 27 inch monitor
+#     # # yabai -m config top_padding 39
+#     yabai -m config top_padding 38
+#     yabai -m config bottom_padding 0
+#     yabai -m config left_padding 0
+#     yabai -m config right_padding 230
+#   elif [[ "$display_resolution" == *"3024 x 1964"* ]]; then
+#     # # This matches my macbook 14 inch
+#     # # yabai -m config top_padding 39
+#     yabai -m config top_padding 10
+#     yabai -m config bottom_padding 0
+#     yabai -m config left_padding 0
+#     yabai -m config right_padding 230
+#     # # For videos thumbnails
+#     # yabai -m config top_padding 400
+#     # yabai -m config bottom_padding 20
+#     # yabai -m config left_padding 500
+#     # yabai -m config right_padding 100
+#
+#     # For youtube thumbnails
+#     # yabai -m config right_padding 500
+#
+#     # For youtube posts and neomemes
+#     # yabai -m config right_padding 800
+#
+#     # For shorts
+#     # yabai -m config bottom_padding 400
+#   elif [[ "$display_resolution" == *"2880 x 1800"* ]]; then
+#     yabai -m config top_padding 38
+#     yabai -m config bottom_padding 0
+#     yabai -m config left_padding 0
+#     yabai -m config right_padding 309  # Mesma largura do Kitty
+#   fi
+# else
+#   yabai -m config top_padding 02
+#   yabai -m config bottom_padding 00
+# fi
+#
 ###############################################################################
 #                                 Paddings
 ###############################################################################
 
 # Top padding for felixkratz sketchybar
-# yabai -m config top_padding 39
-# Top padding for default sketchybar
-# yabai -m config top_padding 25
-# yabai -m config bottom_padding 05
-# yabai -m config left_padding 180
-# yabai -m config right_padding 05
+# yabai -m config top_padding 45 
+Top padding for default sketchybar
+yabai -m config top_padding 45
+yabai -m config bottom_padding 08
+yabai -m config left_padding 15
+yabai -m config right_padding 15
 
 ###############################################################################
 #                               Transparency
