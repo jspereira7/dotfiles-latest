@@ -32,3 +32,8 @@ if [ "$OS" = 'Mac' ]; then
 elif [ "$OS" = 'Linux' ]; then
   source ~/github/dotfiles-latest/zshrc/zshrc-linux.sh
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
