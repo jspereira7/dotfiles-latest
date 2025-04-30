@@ -33,19 +33,11 @@ fi
 alias ll='ls -lh'
 alias lla='ls -alh'
 alias python='python3'
-# Shows the last 30 entries, default is 15
 alias history='history -30'
 alias v='nvim'
 
-# kubernetes, if you need help, just run 'kgp --help' for example
-alias k='kubectl'
-alias kga='kubectl get all'
-alias kgp='kubectl get pods'
-alias kgpa='kubectl get pods --all-namespaces'
-alias kgpo='kubectl get pods -o wide'
-
-# golang aliases
-alias coverage='go test -coverprofile=coverage.out && go tool cover -html=coverage.out'
+# Golang aliases (Removed, as it's for Python and JavaScript focus)
+# alias coverage='go test -coverprofile=coverage.out && go tool cover -html=coverage.out'
 
 # Detect OS
 case "$(uname -s)" in
@@ -67,17 +59,6 @@ if [ "$OS" = 'Mac' ]; then
   export JAVA_HOME="/opt/homebrew/opt/openjdk"
   # Add JAVA_HOME/bin to the beginning of the PATH
   export PATH="$JAVA_HOME/bin:$PATH"
-
-  # https://github.com/antlr/antlr4/blob/master/doc/getting-started.md#unix
-  # Add antlr-4.13.1-complete.jar to your CLASSPATH
-  export CLASSPATH=".:/usr/local/lib/antlr-4.13.1-complete.jar:$CLASSPATH"
-  # Create an alias for running ANTLR's TestRig
-  alias antlr4='java -Xmx500M -cp "/usr/local/lib/antlr-4.13.1-complete.jar:$CLASSPATH" org.antlr.v4.Tool'
-  alias grun='java -Xmx500M -cp "/usr/local/lib/antlr-4.13.1-complete.jar:$CLASSPATH" org.antlr.v4.gui.TestRig'
-
-  export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-  export LDFLAGS="-L/opt/homebrew/opt/libpq/lib"
-  export CPPFLAGS="-I/opt/homebrew/opt/libpq/include"
 
   # Add templ to PATH if it is installed
   # templ is installed with
@@ -125,10 +106,7 @@ if [ "$OS" = 'Mac' ]; then
     # Alias below is same as 'cd -', takes to the previous directory
     alias cdd='z -'
 
-    #Since I migrated from z.lua, I can import my data
-    # zoxide import --from=z "$HOME/.zlua" --merge
-
-    # Useful commands
+    #Useful commands
     # z foo<SPACE><TAB>  # show interactive completions
   fi
 
@@ -158,5 +136,26 @@ if [ "$OS" = 'Mac' ]; then
 
 fi
 
+# Node.js and JavaScript specific configurations
+# Assuming Node.js and npm are installed via Homebrew (macOS) or other means
+if command -v node &>/dev/null; then
+  # Alias for running node, npm, and yarn commands
+  alias node='node'
+  alias npm='npm'
+  alias yarn='yarn'
+  
+  # Useful npm and node commands
+  alias npmi='npm install'
+  alias npmu='npm update'
+  alias npms='npm start'
+  alias npmt='npm test'
+  
+  # Enable autocompletion for npm commands
+  if [ -f ~/.npm-completion ]; then
+    source ~/.npm-completion
+  fi
+fi
+
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/linkarzu/.lmstudio/bin"
+
