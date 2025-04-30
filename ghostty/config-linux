@@ -1,0 +1,46 @@
+# Linux (Pop!_OS) i3wm adaptation of Ghostty config
+# To get the default values
+# ghostty +show-config --default --docs > ~/github/dotfiles-latest/ghostty/config-default
+
+# Additional configuration files to read
+config-file = ghostty-theme
+
+# Custom shader configuration
+custom-shader = shaders/bloom025.glsl
+
+# Command to handle tmux sessions
+# Adapted for Linux shell environments
+command = zsh --login -c "if command -v tmux >/dev/null 2>&1; then tmux attach || tmux; else zsh; fi"
+
+# Window padding configuration
+window-padding-x = 2,1
+window-padding-y = 2,0
+
+# Font configuration
+font-family = "JetBrainsMono Nerd Font"
+font-size = 14
+
+# Window decoration settings for Linux
+# For i3wm, we should disable native decorations as i3 handles window management
+gtk-hide-decoration = true
+gtk-single-instance = false
+
+# This option disables confirmation when closing windows
+confirm-close-surface = false
+
+# Keybindings adapted for Linux
+# Replace cmd with super (Linux/Windows key)
+keybind = super+s=toggle_quick_terminal
+keybind = super+i=inspector:toggle
+keybind = super+r=reload_config
+
+# Quick terminal animation settings
+quick-terminal-animation-duration = 0
+
+# Remove macOS-specific configurations
+# macos-titlebar-style, macos-option-as-alt, macos-icon have been removed
+
+# i3wm integration options
+# These settings help Ghostty work better with i3
+gtk-use-system-theme = true
+quit-after-last-window-closed = true
